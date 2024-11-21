@@ -1,14 +1,14 @@
-name: ci
-
+name: Docker CI Learning - KUCL 
 on:
   push:
-
 jobs:
-  docker:
-    runs-on: ubuntu-latest
+  docker_1:
+    runs-on: ubuntu-latest 
+      #labels: kucl22 
+         
     steps:
       -
-        name: Set up QEMU
+        name: Set up QEMU test
         uses: docker/setup-qemu-action@v3
       -
         name: Set up Docker Buildx
@@ -24,4 +24,15 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME}}/githubaction:action
+          tags: ${{ secrets.DOCKERHUB_USERNAME}}/kucl22:actions
+  deploy:
+    needs: docker_1
+    name: k8s deployment 
+    runs-on: 
+      labels: shravani
+    steps:
+      - name: create deployment
+      # mkdir ${HOME}/.kube
+      #  echo ${{MYKUBECONFIG}} | base64  --decode > ${HOME}./kube/config
+        
+        run: kubectl create deployment githubaction --image=docker.io/httpd
