@@ -3,7 +3,7 @@ on:
   push:
 jobs:
   docker_1:
-    runs-on: ubuntu-latest 
+    runs-on: self-hosted
       #labels: kucl22 
          
     steps:
